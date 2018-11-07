@@ -599,6 +599,7 @@ class StackViewLayout extends React.Component {
 
   _renderCard = scene => {
     const { screenInterpolator } = this._getTransitionConfig();
+    const { hasBlurView } = this.props;
 
     const style =
       screenInterpolator &&
@@ -617,6 +618,7 @@ class StackViewLayout extends React.Component {
     return (
       <Card
         {...this.props.transitionProps}
+        hasBlurView={hasBlurView}
         key={`card_${scene.key}`}
         transparent={this.props.transparentCard}
         style={[style, { paddingTop }, this.props.cardStyle]}

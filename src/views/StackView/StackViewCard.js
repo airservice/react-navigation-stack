@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { Screen } from 'react-native-screens';
+import { BlurView } from 'react-native-blur';
 import createPointerEventsContainer from './createPointerEventsContainer';
 
 const EPS = 1e-5;
@@ -31,6 +32,7 @@ class Card extends React.Component {
       position,
       transparent,
       scene: { index, isActive },
+      scenes,
     } = this.props;
 
     const active =
@@ -51,8 +53,19 @@ class Card extends React.Component {
         {...getAccessibilityProps(isActive)}
       >
         {children}
+        {this.renderBlur()}
       </Screen>
     );
+  }
+
+  renderBlur() {
+    const { hasBlurView, scene, scenes } = this.props;
+
+    if (hasBlurView && hasBlurView({ scene, scenes })) {
+      return <BlurView blurType="dark" blurAmount={5} style={styles.shade} />;
+    }
+
+    return null;
   }
 }
 
@@ -67,6 +80,14 @@ const styles = StyleSheet.create({
   },
   transparent: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent',
+  },
+  shade: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'transparent',
   },
 });
